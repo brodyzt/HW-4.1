@@ -12,8 +12,8 @@ class Person:
         for line in contents:
             person_data = line.split(',')
             name = person_data[0]
-            age = person_data[1]
-            personality_rating = person_data[2]
+            age = int(person_data[1])
+            personality_rating = float(person_data[2])
             person_list.append(Person(name,age,personality_rating))
         file.close()
         return person_list
@@ -21,7 +21,7 @@ class Person:
     # class method to save updates people list to file
     @staticmethod
     def save_to_file(person_list):
-        file = open('People','r')
+        file = open('People','r+')
         file.truncate(0)
         file.write('Name,Age,Personality_Rating\n')
         for person in person_list:
