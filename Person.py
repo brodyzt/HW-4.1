@@ -1,3 +1,4 @@
+from enum import Enum
 class Person:
     # counter to ensure Person IDs aren't reused
     counter = 0
@@ -39,3 +40,12 @@ class Person:
     # overrides string output of person object
     def __str__(self):
         return 'ID:{}, Name:{}, Age:{}, Personality:{}'.format(self.id,self.name,self.age,self.personality_rating)
+
+    def data(self):
+        return [self.id,self.name,self.age,self.personality_rating]
+
+class PersonTrait(Enum):
+    id = 0
+    name = 1
+    age = 2
+    personality = 3

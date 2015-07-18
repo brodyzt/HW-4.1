@@ -1,5 +1,5 @@
 from Sort import Sort
-
+from Person import PersonTrait
 class Chair:
 
     counter = 0
@@ -61,3 +61,41 @@ class ChairStructure:
     # sorts the structure by personality rating of people in chairs
     def sort_by_personality_rating(self):
         self = ChairStructure.build_from_list_of_chairs(Sort.bubble_sort(self.structure, [chair.person.personality_rating for chair in self.structure]))
+
+    def contains_person_with_trait(self, trait_type, trait_value):
+        for chair in self.structure:
+            if trait_type == PersonTrait.id:
+                if chair.person.data()[0] == trait_value:
+                    return True
+            if trait_type == PersonTrait.name:
+                if chair.person.data()[1] == trait_value:
+                    return True
+            if trait_type == PersonTrait.age:
+                if chair.person.data()[2] == trait_value:
+                    return True
+            if trait_type == PersonTrait.personality:
+                if chair.person.data()[3] == trait_value:
+                    return True
+
+
+
+        else: return False
+
+    def remove_person_with_trait(self, trait_type, trait_value):
+        for x in range(len(self.structure)):
+            if trait_type == PersonTrait.id:
+                if self.structure[x].person.data()[0] == trait_value:
+                    self.structure.pop(x)
+                    break
+            if trait_type == PersonTrait.name:
+                if self.structure[x].person.data()[1] == trait_value:
+                    self.structure.pop(x)
+                    break
+            if trait_type == PersonTrait.age:
+                if self.structure[x].person.data()[2] == trait_value:
+                    self.structure.pop(x)
+                    break
+            if trait_type == PersonTrait.personality:
+                if self.structure[x].person.data()[3] == trait_value:
+                    self.structure.pop(x)
+                    break
