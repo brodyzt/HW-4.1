@@ -99,3 +99,9 @@ class ChairStructure:
                 if self.structure[x].person.data()[3] == trait_value:
                     self.structure.pop(x)
                     break
+        self = ChairStructure.build_from_list_of_chairs([chair for chair in self.structure])
+
+    def add_person(self, new_person):
+        temp_person_list = [chair.person for chair in self.structure]
+        temp_person_list.append(new_person)
+        return ChairStructure.build_from_list_of_people(temp_person_list)
