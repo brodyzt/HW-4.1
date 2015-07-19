@@ -31,8 +31,8 @@ def remove_person():
         while True:
             try:
                 person_id = int(person_id)
-                if my_structure.contains_person_with_trait(PersonTrait.id,person_id):
-                    my_structure.remove_person_with_trait(PersonTrait.id,person_id)
+                if my_structure.contains_person_with_trait('id',person_id):
+                    my_structure.remove_person_with_trait('id',person_id)
                     break
                 else:
                     print("You didn't enter a valid id. Please try again")
@@ -45,7 +45,7 @@ def remove_person():
         print('What is the Name of the person you want to remove.')
         person_name = input('Name: ')
         while True:
-            if not my_structure.contains_person_with_trait(PersonTrait.name, person_name):
+            if not my_structure.contains_person_with_trait('name', person_name):
                 print("You didn't enter a valid name. Please try again.")
                 person_name = input("Name: ")
             else:
@@ -59,7 +59,7 @@ def remove_person():
             try:
                 final_choice = int(final_choice)
                 if final_choice - 1 in range(len(temp_structure)):
-                    my_structure.remove_person_with_trait(PersonTrait.id, temp_structure[final_choice - 1].person.id)
+                    my_structure.remove_person_with_trait('id', temp_structure[final_choice - 1].person.id)
                     break
                 else:
                     raise SelectionError
@@ -74,7 +74,7 @@ def remove_person():
         print('What is the Age of the person you want to remove.')
         person_age = input('Age: ')
         while True:
-            if not my_structure.contains_person_with_trait(PersonTrait.age, int(person_age)):
+            if not my_structure.contains_person_with_trait('age', int(person_age)):
                 print("You didn't enter a valid age. Please try again.")
                 person_age = input("Age: ")
             else:
@@ -88,7 +88,7 @@ def remove_person():
             try:
                 final_choice = int(final_choice)
                 if final_choice - 1 in range(len(temp_structure)):
-                    my_structure.remove_person_with_trait(PersonTrait.id, temp_structure[final_choice - 1].person.id)
+                    my_structure.remove_person_with_trait('id', temp_structure[final_choice - 1].person.id)
                     break
                 else:
                     raise SelectionError
@@ -103,7 +103,7 @@ def remove_person():
         print('What is the Personality Rating of the person you want to remove.')
         person_rating = input('Personality Rating: ')
         while True:
-            if not my_structure.contains_person_with_trait(PersonTrait.personality, float(person_rating)):
+            if not my_structure.contains_person_with_trait('personality', float(person_rating)):
                 print("You didn't enter a valid Personality Rating. Please try again.")
                 person_rating = float(input("Personality Rating: "))
             else:
@@ -117,7 +117,7 @@ def remove_person():
             try:
                 final_choice = int(final_choice)
                 if final_choice - 1 in range(len(temp_structure)):
-                    my_structure.remove_person_with_trait(PersonTrait.id, temp_structure[final_choice - 1].person.id)
+                    my_structure.remove_person_with_trait('id', temp_structure[final_choice - 1].person.id)
                     break
                 else:
                     raise SelectionError
@@ -169,7 +169,7 @@ while running:
         remove_person()
         print('Removed!')
     elif selection == '3':
-        my_structure.sort_by_personality_rating()
+        my_structure = my_structure.sort_by_personality_rating()
         print('Sorted!!')
     elif selection == '4':
         Person.save_to_file([chair.person for chair in my_structure.structure])

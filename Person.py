@@ -44,8 +44,9 @@ class Person:
     def data(self):
         return [self.id,self.name,self.age,self.personality_rating]
 
-class PersonTrait(Enum):
-    id = 0
-    name = 1
-    age = 2
-    personality = 3
+class PersonTrait():
+   dic =  {'id':0,
+            'name':1,
+            'age':2,
+            'personality':3}
+
