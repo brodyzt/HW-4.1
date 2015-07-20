@@ -111,10 +111,10 @@ class Sort:
                 if value_list[x] > pivot:
                     greater_base.append(base_list[x])
                     greater_value.append(value_list[x])
-            less = Sort.quick_sort_data(less_base,less_value)
+            less = Sort.quick_sort_data(less_base, less_value)
             less_base = less[0]
             less_value = less[1]
-            greater = Sort.quick_sort_data(greater_base,greater_value)
+            greater = Sort.quick_sort_data(greater_base, greater_value)
             greater_base = greater[0]
             greater_value = greater[1]
             return [less_base + equal_base + greater_base, less_value + equal_value + greater_value]
@@ -122,4 +122,4 @@ class Sort:
     # removes accessory data from data returned by Sort.quick_sort_data()
     @staticmethod
     def quick_sort(base_list, value_list):
-        return Sort.quick_sort_data(base_list,value_list)[0]
+        return Sort.quick_sort_data(base_list, value_list)[0]
