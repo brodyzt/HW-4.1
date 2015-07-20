@@ -1,4 +1,3 @@
-from Person import Person
 class Sort:
 
     # sorts list using bubble sort
@@ -8,9 +7,9 @@ class Sort:
         while not is_sorted:
             is_sorted = True
             for x in range(len(base_list) - 1):
-                if(value_list[x] > value_list[x+1]):
-                    base_list[x],base_list[x+1]=base_list[x+1],base_list[x]
-                    value_list[x],value_list[x+1]=value_list[x+1],value_list[x]
+                if value_list[x] > value_list[x+1]:
+                    base_list[x], base_list[x+1]=base_list[x+1], base_list[x]
+                    value_list[x], value_list[x+1]=value_list[x+1], value_list[x]
                     is_sorted = False
         return base_list
 
@@ -24,21 +23,19 @@ class Sort:
                 if value_list[y] < temp_lowest:
                     temp_lowest = value_list[y]
                     temp_lowest_location = y
-            base_list[x],base_list[temp_lowest_location]=base_list[temp_lowest_location],base_list[x]
-            value_list[x],value_list[temp_lowest_location]=value_list[temp_lowest_location],value_list[x]
+            base_list[x], base_list[temp_lowest_location] = base_list[temp_lowest_location], base_list[x]
+            value_list[x], value_list[temp_lowest_location] = value_list[temp_lowest_location], value_list[x]
         return base_list
 
     # sorts list using insertion sort
     @staticmethod
-    def insertion_sort(base_list, value_list): #
+    def insertion_sort(base_list, value_list):
         temp_list = []
         list_length = len(base_list)
         for x in range(list_length):
-            min = value_list[0]
             min_loc = 0
             for y in range(1, len(base_list)):
                 if value_list[y] < value_list[min_loc]:
-                    min = value_list[y]
                     min_loc = y
             temp_list.append(base_list[min_loc])
             base_list.pop(min_loc)
@@ -55,11 +52,11 @@ class Sort:
             left_data = Sort.merge_sort_data(base_list[:middle], value_list[:middle])
             left_base = left_data[0]
             left_value = left_data[1]
-            right_data = Sort.merge_sort_data(base_list[middle:len(base_list)],value_list[middle:len(base_list)])
+            right_data = Sort.merge_sort_data(base_list[middle:len(base_list)], value_list[middle:len(base_list)])
             right_base = right_data[0]
             right_value = right_data[1]
-            base_result = [0 for x in range(len(base_list))]
-            value_result = [0 for x in range(len(base_list))]
+            base_result = [0 for _ in range(len(base_list))]
+            value_result = [0 for _ in range(len(base_list))]
             l_counter = 0
             r_counter = 0
             for m_counter in range(len(base_list)):
@@ -88,14 +85,14 @@ class Sort:
 
     # sorts list using radix_sort
     @staticmethod
-    def radix_sort(base_list,value_list):
+    def radix_sort(base_list, value_list):
         pass
 
     # sorts list using quick_sort
     @staticmethod
-    def quick_sort_data(base_list,value_list):
+    def quick_sort_data(base_list, value_list):
         if not len(base_list) > 1:
-            return [base_list,value_list]
+            return [base_list, value_list]
         else:
             less_base = []
             less_value = []

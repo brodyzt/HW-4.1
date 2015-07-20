@@ -60,7 +60,7 @@ class ChairStructure:
 
     # sorts the structure by personality rating of people in chairs
     def sort_by_personality_rating(self):
-        return ChairStructure.build_from_list_of_chairs(Sort.bubble_sort(self.structure, [chair.person.personality_rating for chair in self.structure]))
+        self = ChairStructure.build_from_list_of_chairs(Sort.bubble_sort(self.structure, [chair.person.personality_rating for chair in self.structure]))
 
     def contains_person_with_trait(self, trait_type, trait_value):
         for chair in self.structure:

@@ -1,6 +1,5 @@
-from Person import Person, PersonTrait
-from ChairStructure import Chair,ChairStructure
-from Sort import Sort
+from Person import Person
+from ChairStructure import ChairStructure
 from Exceptions import SelectionError
 
 people = Person.load_from_file()
@@ -169,7 +168,7 @@ while running:
         remove_person()
         print('Removed!')
     elif selection == '3':
-        my_structure = my_structure.sort_by_personality_rating()
+        my_structure.sort_by_personality_rating()
         print('Sorted!!')
     elif selection == '4':
         Person.save_to_file([chair.person for chair in my_structure.structure])
