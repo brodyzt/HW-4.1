@@ -102,13 +102,13 @@ def remove_person():
         print('What is the Personality Rating of the person you want to remove.')
         person_rating = input('Personality Rating: ')
         while True:
-            if not my_structure.contains_person_with_trait('personality', float(person_rating)):
+            if not my_structure.contains_person_with_trait('personality', int(person_rating)):
                 print("You didn't enter a valid Personality Rating. Please try again.")
-                person_rating = float(input("Personality Rating: "))
+                person_rating = int(input("Personality Rating: "))
             else:
                 break
         print('Select which person you would like to remove.\n')
-        temp_structure = [chair for chair in my_structure.structure if chair.person.personality_rating == float(person_rating)]
+        temp_structure = [chair for chair in my_structure.structure if chair.person.personality_rating == int(person_rating)]
         for x in range(len(temp_structure)):
             print('{}. {}'.format(x+1,temp_structure[x]))
         final_choice = input('\nChoice: ')
@@ -140,17 +140,17 @@ def build_new_person():
         except ValueError:
             print("You didn't enter a valid age. Try again")
             person_age = input('What is the age of the person: ')
-    personality_rating = input('What is the personality rating of the person (Float between 1-10): ')
+    personality_rating = input('What is the personality rating of the person (Int between 1-100): ')
     while True:
         try:
-            personality_rating = float(personality_rating)
+            personality_rating = int(personality_rating)
             while not (personality_rating >= 0 and personality_rating <= 10):
                 print("You didn't enter a valid rating. Try again")
-                personality_rating = float(input('What is the personality rating of the person (Float between 1-10): '))
+                personality_rating = int(input('What is the personality rating of the person (Int between 1-100): '))
             break
         except ValueError:
             print("You didn't enter a valid rating. Try again")
-            personality_rating = input('What is the personality rating of the person (Float between 1-10): ')
+            personality_rating = input('What is the personality rating of the person (Int between 1-100): ')
     return Person(person_name,person_age,personality_rating)
 
 while running:
@@ -168,7 +168,7 @@ while running:
         remove_person()
         print('Removed!')
     elif selection == '3':
-        my_structure.sort_by_personality_rating()
+        my_structure = my_structure.sort_by_personality_rating()
         print('Sorted!!')
     elif selection == '4':
         Person.save_to_file([chair.person for chair in my_structure.structure])

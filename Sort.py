@@ -1,3 +1,12 @@
+from copy import copy
+
+def get_digit(int_input, digit):
+    if not digit > len(str(int_input)):
+        return int(str(int_input)[len(str(int_input)) - digit])
+    else:
+        return 0
+
+
 class Sort:
 
     # sorts list using bubble sort
@@ -8,8 +17,8 @@ class Sort:
             is_sorted = True
             for x in range(len(base_list) - 1):
                 if value_list[x] > value_list[x+1]:
-                    base_list[x], base_list[x+1]=base_list[x+1], base_list[x]
-                    value_list[x], value_list[x+1]=value_list[x+1], value_list[x]
+                    base_list[x], base_list[x+1] = base_list[x+1], base_list[x]
+                    value_list[x], value_list[x+1] = value_list[x+1], value_list[x]
                     is_sorted = False
         return base_list
 
@@ -45,38 +54,37 @@ class Sort:
     # sorts list using merge sort
     @staticmethod
     def merge_sort_data(base_list, value_list):
-        if len(base_list) == 1:
+        if not len(base_list) > 1:
             return [base_list, value_list]
-        else:
-            middle = len(base_list) // 2
-            left_data = Sort.merge_sort_data(base_list[:middle], value_list[:middle])
-            left_base = left_data[0]
-            left_value = left_data[1]
-            right_data = Sort.merge_sort_data(base_list[middle:len(base_list)], value_list[middle:len(base_list)])
-            right_base = right_data[0]
-            right_value = right_data[1]
-            base_result = [0 for _ in range(len(base_list))]
-            value_result = [0 for _ in range(len(base_list))]
-            l_counter = 0
-            r_counter = 0
-            for m_counter in range(len(base_list)):
-                if l_counter == len(left_base):
-                    base_result[m_counter] = right_base[r_counter]
-                    value_result[m_counter] = right_value[r_counter]
-                    r_counter += 1
-                elif r_counter == len(right_base):
-                    base_result[m_counter] = left_base[l_counter]
-                    value_result[m_counter] = left_value[l_counter]
-                    l_counter += 1
-                elif left_value[l_counter] < right_value[r_counter]:
-                    base_result[m_counter] = left_base[l_counter]
-                    value_result[m_counter] = left_value[l_counter]
-                    l_counter += 1
-                else:
-                    base_result[m_counter] = right_base[r_counter]
-                    value_result[m_counter] = right_value[r_counter]
-                    r_counter += 1
-            return [base_list, value_list]
+        middle = len(value_list) // 2
+        left_data = Sort.merge_sort_data(base_list[:middle], value_list[:middle])
+        left_base = left_data[0]
+        left_value = left_data[1]
+        right_data = Sort.merge_sort_data(base_list[middle:len(base_list)], value_list[middle:len(value_list)])
+        right_base = right_data[0]
+        right_value = right_data[1]
+        base_result = [0 for x in range(len(base_list))]
+        value_result = [0 for x in range(len(base_list))]
+        l_counter = 0
+        r_counter = 0
+        for m_counter in range(len(base_list)):
+            if l_counter == len(left_base):
+                base_result[m_counter] = right_base[r_counter]
+                value_result[m_counter] = right_value[r_counter]
+                r_counter += 1
+            elif r_counter == len(right_base):
+                base_result[m_counter] = left_base[l_counter]
+                value_result[m_counter] = left_value[l_counter]
+                l_counter += 1
+            elif left_value[l_counter] < right_value[r_counter]:
+                base_result[m_counter] = left_base[l_counter]
+                value_result[m_counter] = left_value[l_counter]
+                l_counter += 1
+            else:
+                base_result[m_counter] = right_base[r_counter]
+                value_result[m_counter] = right_value[r_counter]
+                r_counter += 1
+        return [base_result, value_result]
 
     # removes accessory data from data returned by Sort.merger_sort_data()
     @staticmethod
@@ -86,7 +94,11 @@ class Sort:
     # sorts list using radix_sort
     @staticmethod
     def radix_sort(base_list, value_list):
-        pass
+        max_length = max([len(str(num)) for num in value_list])
+        for x in range(1,max_length+1):
+            base_list = Sort.selection_sort(base_list, [get_digit(value_list[z], x) for z in range(len(value_list))])
+            value_list = Sort.selection_sort(value_list, [get_digit(value_list[z], x) for z in range(len(value_list))])
+        return base_list
 
     # sorts list using quick_sort
     @staticmethod

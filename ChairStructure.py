@@ -1,5 +1,7 @@
 from Sort import Sort
 from Person import PersonTrait
+
+
 class Chair:
 
     counter = 0
@@ -15,7 +17,7 @@ class Chair:
         pass
 
     # initializes the Chair object
-    def __init__(self,person,next_chair=None):
+    def __init__(self, person, next_chair=None):
         self.id = Chair.counter
         Chair.counter += 1
         self.person = person
@@ -24,9 +26,10 @@ class Chair:
     # overrides the string output function for Chair object
     def __str__(self):
         try:
-            return 'ID:{}, Next Chair:{}, Person:{}'.format(self.id,self.next_chair.id,self.person)
+            return 'ID:{}, Next Chair:{}, Person:{}'.format(self.id, self.next_chair.id, self.person)
         except AttributeError:
-            return 'ID:{}, Next Chair:none, Person:{}'.format(self.id,self.person)
+            return 'ID:{}, Next Chair:none, Person:{}'.format(self.id, self.person)
+
 
 class ChairStructure:
 
@@ -60,7 +63,7 @@ class ChairStructure:
 
     # sorts the structure by personality rating of people in chairs
     def sort_by_personality_rating(self):
-        self = ChairStructure.build_from_list_of_chairs(Sort.bubble_sort(self.structure, [chair.person.personality_rating for chair in self.structure]))
+        return ChairStructure.build_from_list_of_chairs(Sort.radix_sort(self.structure, [chair.person.personality_rating for chair in self.structure]))
 
     def contains_person_with_trait(self, trait_type, trait_value):
         for chair in self.structure:
