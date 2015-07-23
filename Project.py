@@ -5,16 +5,20 @@ from Sort import Sort
 from BinarySearchTree import BinarySearchTree
 
 
+# prints new line 30 times to clear the console view
 def clear_screen():
     print('\n' * 30)
 
+# builds a new structure with the people from save file
 people = Person.load_from_file()
 my_structure = ChairStructure.build_from_list_of_people(people)
+
 
 running = True
 
 
 def remove_person():
+    # asks user to select which trait to sort by
     print('\nWhich of the following traits would you like to search?\n')
     print("1.ID\n"
           "2.Name\n"
@@ -22,6 +26,8 @@ def remove_person():
           "4.Personality Rating")
     print('\n')
     selection = input('Choice: ')
+
+    # checks to make sure selection is valid option
     while True:
         try:
             if not selection in ['1','2','3','4']: raise SelectionError
@@ -32,6 +38,8 @@ def remove_person():
 
     print('\n')
     if selection == '1':
+
+        # removes person by ID
         print('What is the ID of the person you want to remove.')
         person_id = input('ID: ')
         while True:
@@ -48,6 +56,8 @@ def remove_person():
                 break
 
     elif selection == '2':
+
+        # removes person by Name
         print('What is the Name of the person you want to remove.')
         person_name = input('Name: ')
         while True:
@@ -61,6 +71,8 @@ def remove_person():
         for x in range(len(temp_structure)):
             print('{}. {}'.format(x+1,temp_structure[x]))
         final_choice = input('\nChoice: ')
+
+        # checks to make sure user entered valid option
         while True:
             try:
                 final_choice = int(final_choice)
@@ -77,6 +89,8 @@ def remove_person():
                 final_choice = input('Choice: ')
 
     elif selection == '3':
+
+        # removes person by age
         print('What is the Age of the person you want to remove.')
         person_age = input('Age: ')
         while True:
@@ -106,6 +120,8 @@ def remove_person():
                 final_choice = input('Choice: ')
 
     elif selection == '4':
+
+        # removes person by personality rating
         print('What is the Personality Rating of the person you want to remove.')
         person_rating = input('Personality Rating: ')
         while True:
@@ -119,6 +135,8 @@ def remove_person():
         for x in range(len(temp_structure)):
             print('{}. {}'.format(x+1,temp_structure[x]))
         final_choice = input('\nChoice: ')
+
+        # checks to make sure user entered valid choice
         while True:
             try:
                 final_choice = int(final_choice)
@@ -135,8 +153,11 @@ def remove_person():
                 final_choice = input('Choice: ')
 
 
+# sorts structure
 def sort_people(input_structure):
     clear_screen()
+
+    # asks which trait to sort structure by
     print('Which of the traits would you like to sort by?\n')
     print('1.ID\n2.Name\n3.Age\n4.Personality Rating\n')
     trait = input('Choice: ')
@@ -145,6 +166,8 @@ def sort_people(input_structure):
         trait = input('Choice: ')
 
     clear_screen()
+
+    # asks user to select sorting method
     print('\nWhich sorting method would you like to use?')
     if trait == '2':
         print('\n1.Bubble Sort\n2.Insertion Sort\n3.Quick Sort\n4.Merge Sort\n5.Selection Sort\n')
@@ -165,9 +188,12 @@ def sort_people(input_structure):
     return input_structure.sort(trait_list[int(trait) - 1], sort_method_list[int(sort_method) - 1])
 
 
+# asks user for Person properties and then adds them to structure
 def build_new_person():
     person_name = input('What is the name of the person: ')
     person_age = input('What is the age of the person: ')
+
+    # checks to make sure user entered valid age
     while True:
         try:
             person_age = int(person_age)
@@ -179,6 +205,8 @@ def build_new_person():
             print("You didn't enter a valid age. Try again")
             person_age = input('What is the age of the person: ')
     personality_rating = input('What is the personality rating of the person (Int between 1-100): ')
+
+    # checks to make sure the user entered a valid personality rating
     while True:
         try:
             personality_rating = int(personality_rating)
@@ -192,24 +220,34 @@ def build_new_person():
     return Person(person_name,person_age,personality_rating)
 
 
+# prints out a binary tree of structure
 def print_binary_tree(input_structure):
     clear_screen()
+
+    # asks which trait to sort tree by
     print("What would you like the tree to be sorted by?\n")
     print("1.ID\n"
           "2.Name\n"
           "3.Age\n"
           "4.Personality Rating\n")
     choice = input('Choice: ')
+
+    # checks to make sure the user entered a valid option
     while not choice in ['1','2','3','4']:
         print("You didn't enter a valid choice. Please try again.")
         choice = input('Choice: ')
+
+    # creates BinarySearchTree and adds the chairs to the tree
     my_tree = BinarySearchTree()
     for chair in input_structure.chair_list():
         my_tree.put(chair.person.data()[int(choice) - 1], chair)
+
     my_tree.print()
 
 
 while running:
+
+    # asks user to choose process
     print("What would you like to do\n")
     print("1.List Current Chair Setup\n"
           "2.Remove Person From Chair Setup\n"
@@ -220,28 +258,47 @@ while running:
     selection = input("Choice: ")
 
     if selection == '1':
+
+        # lists the chairs in structure
         print(my_structure)
         print('\nListed!!')
+
     elif selection == '2':
+
+        # runs function to remove person
         remove_person()
         clear_screen()
         print('Removed!')
+
     elif selection == '3':
+
+        # runs function to sort people
         my_structure = sort_people(my_structure)
         clear_screen()
         print('Sorted!!')
+
     elif selection == '4':
+
+        # updates save file
         Person.save_to_file([chair.person for chair in my_structure.chair_list()])
         clear_screen()
         print('Saved!!')
+
     elif selection == '5':
+
+        # runs function to create new person and add to structure
         new_person = build_new_person()
         new_chair = Chair(new_person)
         my_structure = my_structure.add_person(new_person)
         clear_screen()
         print('Added!!')
+
     elif selection == '6':
+
+        # prints the binary tree
         print_binary_tree(my_structure)
+
+    # ensure the user entered a valid option
     else:
         print("You didn't enter a valid answer. Please try again")
 
