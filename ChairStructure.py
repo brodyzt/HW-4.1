@@ -55,6 +55,7 @@ class ChairStructure:
         for person in list:
             chair_list.append(Chair(person))
         return ChairStructure.build_from_list_of_chairs(chair_list)
+
     # initializes ChairStructure object
     def __init__(self):
         self.first_chair = None
