@@ -1,6 +1,10 @@
 from Person import Person
 from ChairStructure import ChairStructure
 from Exceptions import SelectionError
+from Sort import Sort
+
+def clear_screen():
+    print('\n' * 30)
 
 people = Person.load_from_file()
 my_structure = ChairStructure.build_from_list_of_people(people)
@@ -127,6 +131,36 @@ def remove_person():
                 print("You didn't enter a valid option. Please try again.")
                 final_choice = input('Choice: ')
 
+def sort_people(input_structure):
+    clear_screen()
+    print('Which of the traits would you like to sort by?\n')
+    print('1.ID\n2.Name\n3.Age\n4.Personality Rating\n')
+    trait = input('Choice: ')
+    while not trait in ['1','2','3','4']:
+        print("You didn't choose a valid option. Please try again.")
+        trait = input('Choice: ')
+
+    clear_screen()
+    print('\nWhich sorting method would you like to use?')
+    if trait == '2':
+        print('\n1.Bubble Sort\n2.Insertion Sort\n3.Quick Sort\n4.Merge Sort\n5.Selection Sort\n')
+        sort_method = input('Choice: ')
+        while sort_method not in ['1','2','3','4','5']:
+            print("You didn't enter a valid option. Please try again.")
+        sort_method = input('Choice: ')
+    else:
+        print('\n1.Bubble Sort\n2.Insertion Sort\n3.Quick Sort\n4.Merge Sort\n5.Selection Sort\n6.Radix Sort\n')
+        sort_method = input('Choice: ')
+        while sort_method not in ['1','2','3','4','5','6']:
+            print("You didn't enter a valid option. Please try again.")
+        sort_method = input('Choice: ')
+    sort_method_list = [Sort.bubble_sort, Sort.radix_sort, Sort.insertion_sort, Sort.quick_sort, Sort.merge_sort, Sort.selection_sort]
+    trait_list = ['id','name','age','personality']
+
+
+    return input_structure.sort(trait_list[int(trait) - 1], sort_method_list[int(sort_method) - 1])
+
+
 def build_new_person():
     person_name = input('What is the name of the person: ')
     person_age = input('What is the age of the person: ')
@@ -157,24 +191,29 @@ while running:
     print("What would you like to do\n")
     print("1.List Current Chair Setup\n"
           "2.Remove Person From Chair Setup\n"
-          "3.Sort Setup By Personality\n"
+          "3.Sort Setup\n"
           "4.Update Save File\n"
           "5.Add Person\n")
     selection = input("Choice: ")
 
     if selection == '1':
         print(my_structure)
+        print('\nListed!!')
     elif selection == '2':
         remove_person()
+        clear_screen()
         print('Removed!')
     elif selection == '3':
-        my_structure = my_structure.sort_by_personality_rating()
+        my_structure = sort_people(my_structure)
+        clear_screen()
         print('Sorted!!')
     elif selection == '4':
         Person.save_to_file([chair.person for chair in my_structure.structure])
+        clear_screen()
         print('Saved!!')
     elif selection == '5':
         my_structure = my_structure.add_person(build_new_person())
+        clear_screen()
         print('Added!!')
     else:
         print("You didn't enter a valid answer. Please try again")

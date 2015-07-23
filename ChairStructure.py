@@ -62,8 +62,8 @@ class ChairStructure:
         return temp_str
 
     # sorts the structure by personality rating of people in chairs
-    def sort_by_personality_rating(self):
-        return ChairStructure.build_from_list_of_chairs(Sort.radix_sort(self.structure, [chair.person.personality_rating for chair in self.structure]))
+    def sort(self, trait, sort_method):
+        return ChairStructure.build_from_list_of_chairs(sort_method(self.structure, [chair.person.data()[PersonTrait.dic[trait]] for chair in self.structure]))
 
     def contains_person_with_trait(self, trait_type, trait_value):
         for chair in self.structure:

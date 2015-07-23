@@ -39,17 +39,17 @@ class Sort:
     # sorts list using insertion sort
     @staticmethod
     def insertion_sort(base_list, value_list):
-        temp_list = []
+        result_list = []
         list_length = len(base_list)
         for x in range(list_length):
             min_loc = 0
             for y in range(1, len(base_list)):
                 if value_list[y] < value_list[min_loc]:
                     min_loc = y
-            temp_list.append(base_list[min_loc])
+            result_list.append(base_list[min_loc])
             base_list.pop(min_loc)
             value_list.pop(min_loc)
-        return temp_list
+        return result_list
 
     # sorts list using merge sort
     @staticmethod
