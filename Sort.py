@@ -1,5 +1,3 @@
-from copy import copy
-
 def get_digit(int_input, digit):
     if not digit > len(str(int_input)):
         return int(str(int_input)[len(str(int_input)) - digit])

@@ -6,22 +6,13 @@ class Chair:
 
     counter = 0
 
-    # loads chairs from save file
-    @staticmethod
-    def load_from_file():
-        pass
-
-    # saves current chairs to save file
-    @staticmethod
-    def save_to_file():
-        pass
-
     # initializes the Chair object
-    def __init__(self, person, next_chair=None):
+    def __init__(self, person, next_chair=None, previous_chair = None):
         self.id = Chair.counter
         Chair.counter += 1
         self.person = person
         self.next_chair = next_chair
+        self.previous_chair = previous_chair
 
     # overrides the string output function for Chair object
     def __str__(self):
@@ -30,16 +21,47 @@ class Chair:
         except AttributeError:
             return 'ID:{}, Next Chair:none, Person:{}'.format(self.id, self.person)
 
+    def rest_of_list(self):
+        if not self.next_chair:
+            return [self]
+        else:
+            list = [self]
+            list.extend(self.next_chair.rest_of_list())
+            return list
+
+
+
 
 class ChairStructure:
+
+    # initializes ChairStructure object
+    def __init__(self):
+        self.first_chair = None
+        self.last_chair = None
+
+    # overrides string output of class
+    def __str__(self):
+        temp_str = ''
+        for chair in self.chair_list():
+            temp_str = temp_str + str(chair) + '\n'
+        return temp_str
+
+    def chair_list(self):
+        return self.first_chair.rest_of_list()
 
     # creates new ChairStructure object using list of Chairs
     @staticmethod
     def build_from_list_of_chairs(chair_list):
-        new_structure = ChairStructure(chair_list)
-        for x in range(len(chair_list) - 1):
-            new_structure.structure[x].next_chair = new_structure.structure[x+1]
-        new_structure.structure[len(chair_list)-1].next_chair = new_structure.structure[0]
+        new_structure = ChairStructure()
+        new_structure.first_chair = chair_list[0]
+        new_structure.last_chair = chair_list[1]
+        new_structure.first_chair.next_chair = new_structure.last_chair
+        new_structure.first_chair.previous_chair = None
+        new_structure.last_chair.previous_chair = new_structure.first_chair
+        new_structure.last_chair.next_chair = None
+
+        for x in range(2,len(chair_list)):
+            new_structure.add_chair(chair_list[x])
         return new_structure
 
     # creates new ChairStructure object using list of people
@@ -50,39 +72,47 @@ class ChairStructure:
             chair_list.append(Chair(person))
         return ChairStructure.build_from_list_of_chairs(chair_list)
 
-    # initializes ChairStructure object
-    def __init__(self, structure=[]):
-        self.structure = structure
-
-    # overrides string output of class
-    def __str__(self):
-        temp_str = ''
-        for chair in self.structure:
-            temp_str = temp_str + str(chair) + '\n'
-        return temp_str
-
     # sorts the structure by personality rating of people in chairs
     def sort(self, trait, sort_method):
-        return ChairStructure.build_from_list_of_chairs(sort_method(self.structure, [chair.person.data()[PersonTrait.dic[trait]] for chair in self.structure]))
+        chair_list = self.chair_list()
+        person_data_list = [chair.person.data()[PersonTrait.dic[trait]] for chair in self.chair_list()]
+        sorted_chair_list = sort_method(chair_list, person_data_list)
+        temp = ChairStructure.build_from_list_of_chairs(sorted_chair_list)
+        return temp
 
     def contains_person_with_trait(self, trait_type, trait_value):
-        for chair in self.structure:
+        for chair in self.chair_list():
             if chair.person.data()[PersonTrait.dic[trait_type]] == trait_value:
                 return True
-
-
-
-        else: return False
+        else:
+            return False
 
     def remove_person_with_trait(self, trait_type, trait_value):
-        for x in range(len(self.structure)):
-            if self.structure[x].person.data()[PersonTrait.dic[trait_type]] == trait_value:
-                self.structure.pop(x)
-                break
-
-        self = ChairStructure.build_from_list_of_chairs([chair for chair in self.structure])
+        current_chair = self.first_chair
+        while current_chair:
+            if current_chair.person.data()[PersonTrait.dic[trait_type]] == trait_value:
+                if current_chair.next_chair and current_chair.previous_chair:
+                    current_chair.previous_chair.next_chair = current_chair.next_chair
+                    current_chair.next_chair.previous_chair = current_chair.previous_chair
+                    current_chair = current_chair.next_chair
+                elif current_chair.next_chair:
+                    self.first_chair = current_chair.next_chair
+                    self.first_chair.previous_chair = None
+                    current_chair = None
+                elif current_chair.previous_chair:
+                    self.last_chair = current_chair.previous_chair
+                    self.last_chair.next_chair = None
+                    current_chair = None
+            else:
+                current_chair = current_chair.next_chair
 
     def add_person(self, new_person):
-        temp_person_list = [chair.person for chair in self.structure]
+        temp_person_list = [chair.person for chair in self.chair_list()]
         temp_person_list.append(new_person)
         return ChairStructure.build_from_list_of_people(temp_person_list)
+
+    def add_chair(self, input_chair):
+        self.last_chair.next_chair = input_chair
+        input_chair.previous_chair = self.last_chair
+        self.last_chair = input_chair
+        self.last_chair.next_chair = None
