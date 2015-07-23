@@ -1,7 +1,8 @@
 from Person import Person
-from ChairStructure import ChairStructure
+from ChairStructure import ChairStructure, Chair
 from Exceptions import SelectionError
 from Sort import Sort
+from BinarySearchTree import BinarySearchTree, TreeNode
 
 def clear_screen():
     print('\n' * 30)
@@ -160,7 +161,6 @@ def sort_people(input_structure):
 
     return input_structure.sort(trait_list[int(trait) - 1], sort_method_list[int(sort_method) - 1])
 
-
 def build_new_person():
     person_name = input('What is the name of the person: ')
     person_age = input('What is the age of the person: ')
@@ -187,13 +187,30 @@ def build_new_person():
             personality_rating = input('What is the personality rating of the person (Int between 1-100): ')
     return Person(person_name,person_age,personality_rating)
 
+def print_binary_tree(input_structure):
+    print("What would you like the tree to be sorted by?\n")
+    print("1.ID\n"
+          "2.Name\n"
+          "3.Age\n"
+          "4.Personality Rating\n")
+    choice = input('Choice: ')
+    while not choice in ['1','2','3','4']:
+        print("You didn't enter a valid choice. Please try again.")
+        choice = input('Choice: ')
+    my_tree = BinarySearchTree()
+    for chair in input_structure.structure:
+        my_tree.put(chair.person.data()[int(choice) - 1], chair)
+    my_tree.print()
+
+
 while running:
     print("What would you like to do\n")
     print("1.List Current Chair Setup\n"
           "2.Remove Person From Chair Setup\n"
           "3.Sort Setup\n"
           "4.Update Save File\n"
-          "5.Add Person\n")
+          "5.Add Person\n"
+          "6.Print Binary Search Tree\n")
     selection = input("Choice: ")
 
     if selection == '1':
@@ -212,9 +229,14 @@ while running:
         clear_screen()
         print('Saved!!')
     elif selection == '5':
-        my_structure = my_structure.add_person(build_new_person())
+        new_person = build_new_person()
+        new_chair = Chair(new_person)
+
+        my_structure = my_structure.add_person(new_person)
         clear_screen()
         print('Added!!')
+    elif selection == '6':
+        print_binary_tree(my_structure)
     else:
         print("You didn't enter a valid answer. Please try again")
 
