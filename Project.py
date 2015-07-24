@@ -240,7 +240,7 @@ def print_binary_tree(input_structure):
     # creates BinarySearchTree and adds the chairs to the tree
     my_tree = BinarySearchTree()
     for chair in input_structure.chair_list():
-        my_tree.put(chair.person.data()[int(choice) - 1], chair)
+        my_tree.put(chair.person.data(['id','name','age','personality'][int(choice) - 1]), chair)
 
     my_tree.print()
 
@@ -303,3 +303,27 @@ while running:
         print("You didn't enter a valid answer. Please try again")
 
     print('\n' * 5)
+'''
+
+# testing area
+person_list = Person.load_from_file()
+chair1 = Chair(person_list[0])
+chair2 = Chair(person_list[1])
+chair3 = Chair(person_list[2])
+chair4 = Chair(person_list[3])
+
+my_structure = ChairStructure()
+
+for x in range(50):
+    chair = Chair(person_list[x])
+    my_structure.add_chair(chair)
+
+my_structure.add_chair(chair1)
+my_structure.add_chair(chair2)
+my_structure.add_chair(chair3)
+my_structure.add_chair(chair4)
+
+my_structure = my_structure.sort('personality', Sort.merge_sort)
+
+print(my_structure)
+'''

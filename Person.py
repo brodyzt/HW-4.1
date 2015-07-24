@@ -41,8 +41,8 @@ class Person:
         return 'ID:{}, Name:{}, Age:{}, Personality:{}'.format(self.id, self.name, self.age, self.personality_rating)
 
     # returns person's data in list format
-    def data(self):
-        return [self.id, self.name, self.age, self.personality_rating]
+    def data(self, trait):
+        return [self.id, self.name, self.age, self.personality_rating][PersonTrait.dic[trait]]
 
 
 # dictionary to easily return Person data using trait name and Person.data() function
